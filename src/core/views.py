@@ -2,6 +2,14 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 
+def index(request):
+    from datetime import datetime
+
+    año_actual = datetime.now().year
+    context = {"año": año_actual}
+    return render(request, "core/index.html", context)
+
+
 def saludar(request):
     return HttpResponse("¡Hola Django!")
 
