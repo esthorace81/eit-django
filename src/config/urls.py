@@ -21,13 +21,14 @@ from django.urls import path
 from core import views
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("", views.index),
-    path("saludar/", views.saludar),
-    path("saludar2/", views.saludar_con_etiqueta),
-    path("saludar/<str:nombre>/<str:apellido>/", views.saludar_con_parametros),
-    path("tirar-dado/", views.tirar_dado),
-    path("ejercicio-1/", views.ejercicio_1),
-    path("ver-notas/", views.ver_notas),
-    path("ejercicio-2/", views.ejercicio_2),
+    path('admin/', admin.site.urls),
+    path('', views.index),
+    path('saludar/', views.saludar),
+    path('saludar2/', views.saludar_con_etiqueta),
+    path('saludar/<str:nombre>/<str:apellido>/', views.saludar_con_parametros),
+    path('tirar-dado/', views.tirar_dado),
+    path('ejercicio-1/', views.ejercicio_1),
+    path('ver-notas/', views.ver_notas),
+    path('ejercicio-2/', views.ejercicio_2),
+    path('cliente/list/', views.cliente_list),
 ]
