@@ -9,7 +9,7 @@ class Pais(models.Model):
 
 
 class Cliente(models.Model):
-    nombre = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=80)
     apellido = models.CharField(max_length=50)
     nacimiento = models.DateField(null=True, blank=True, verbose_name='fecha de nacimiento')
     pais_origen = models.ForeignKey(
