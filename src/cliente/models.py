@@ -1,5 +1,3 @@
-from typing import Collection
-
 from django.db import models
 
 
