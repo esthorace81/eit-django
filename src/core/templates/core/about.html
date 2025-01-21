@@ -1,4 +1,10 @@
+{% load static %}
+
 <h1>Acerca de mí</h1>
 <p>Esteban Acevedo</p>
 <p>Linkedin: <a href="https://www.linkedin.com/in/esteban-acevedo-aberastain/">https://www.linkedin.com/in/esteban-acevedo-aberastain/</a></p>
+
+<img src="{% static 'core/perfil.png' %}" alt="foto de perfil" height="25%">
+
+<br>
 <a href="{% url 'core:index' %}">Inicio</a>
