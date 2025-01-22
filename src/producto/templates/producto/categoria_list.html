@@ -1,10 +1,15 @@
-<h1>Producto</h1>
-<h3>Lista de Categorías</h3>
-<ul>
-    {% for categoria in categorias %}
-        <li>{{ categoria }}</li>
-    {% endfor %}
-</ul>
+{% extends 'core/base.html' %}
 
-<button onclick="history.back()">Volver</button>
-<button><a href="{% url 'core:index' %}">Inicio</a></button>
+{% block content %}
+    <h1>Producto</h1>
+    <h3>Lista de Categorías</h3>
+    <ul>
+        {% for categoria in categorias %}
+            <li>{{ categoria }}</li>
+        {% endfor %}
+    </ul>
+
+    <button onclick="history.back()">Volver</button>
+    <button><a href="{% url 'core:index' %}">Inicio</a></button>
+
+{% endblock %}
