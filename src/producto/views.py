@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.http import HttpRequest
+from django.shortcuts import redirect, render
 
 from . import forms, models
 
@@ -13,11 +14,12 @@ def categoria_list(request):
     return render(request, 'producto/categoria_list.html', context)
 
 
-def categoria_create(request):
+def categoria_create(request: HttpRequest):
     if request.method == 'GET':
         form = forms.CategoriaForm()
     if request.method == 'POST':
         form = forms.CategoriaForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('producto:categoria_list')
     return render(request, 'producto/categoria_form.html', {'form': form})

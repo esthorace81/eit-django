@@ -9,7 +9,7 @@
         <button type="submit">Enviar</button>
     </form>
 
-    <button onclick="history.back()">Volver</button>
+    <button><a href="{% url 'producto:index' %}">Volver</a></button>
     <button><a href="{% url 'core:index' %}">Inicio</a></button>
 
 {% endblock %}
