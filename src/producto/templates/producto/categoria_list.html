@@ -1,13 +1,35 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-    <h1>Producto</h1>
-    <h3>Lista de Categorías</h3>
-    <ul>
-        {% for categoria in categorias %}
-            <li>{{ categoria }}</li>
-        {% endfor %}
-    </ul>
+    <h1>Producto: Categorías</h1>
+    <a href="{% url 'producto:categoria_create' %}">
+        <button>Crear Categoría de Productos</button></a>
+
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Categoría</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for categoria in object_list %}
+                <tr>
+                    <td>{{ categoria }} </td>
+                    <td>
+                        <a href="#"><button>Detalle</button></a>
+                        <a href="{% url 'producto:categoria_update' categoria.id %}"><button>Editar</button></a>
+                        <a href="#"><button>Eliminar</button></a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td>No hay datos disponibles</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     <button><a href="{% url 'producto:index' %}">Volver</a></button>
     <button><a href="{% url 'core:index' %}">Inicio</a></button>

@@ -1,10 +1,10 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-    <h1>App Producto</h1>
-    <a href="{% url 'core:index' %}">Inicio</a>
-    <br>
-    <a href="{% url 'producto:categoria_list' %}">Categorías de Productos</a>
-    <br>
-    <a href="{% url 'producto:categoria_create' %}">Crear Categorías de Productos</a>
+    <h1>Producto</h1>
+    <div>
+        <a href="{% url 'producto:categoria_list' %}"><button>Categorías de Productos</button></a>
+        
+   </div>
+   <a href="{% url 'core:index' %}"><button>Inicio</button></a>
 {% endblock content %}

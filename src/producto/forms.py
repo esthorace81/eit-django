@@ -11,6 +11,7 @@ class CategoriaForm(forms.ModelForm):
 
     def clean_descripcion(self):
         descripcion: str = self.cleaned_data.get('descripcion', '')
-        if len(descripcion) < 3:
+
+        if descripcion and len(descripcion) < 3:
             raise forms.ValidationError('La longitud debe ser mayor a 2 caracteres')
         return descripcion
