@@ -4,14 +4,15 @@ from django.db import models
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
+    descripcion = models.TextField(verbose_name='descripción', null=True, blank=True)
 
     def __str__(self) -> str:
         return self.nombre
 
     class Meta:
         ordering = ['nombre']
-        verbose_name = 'categoría'
-        verbose_name_plural = 'categorías'
+        verbose_name = 'categoría de productos'
+        verbose_name_plural = 'categorías de productos'
 
     def clean(self) -> None:
         self.nombre = f'{self.nombre[0].upper()}{self.nombre[1:]}'
