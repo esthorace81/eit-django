@@ -18,9 +18,9 @@
                 <tr>
                     <td>{{ categoria }} </td>
                     <td>
-                        <a href="#"><button>Detalle</button></a>
+                        <a href="{% url 'producto:categoria_detail' categoria.id %}"><button>Detalle</button></a>
                         <a href="{% url 'producto:categoria_update' categoria.id %}"><button>Editar</button></a>
-                        <a href="#"><button>Eliminar</button></a>
+                        <a href="{% url 'producto:categoria_delete' categoria.id %}"><button>Eliminar</button></a>
                     </td>
                 </tr>
             {% empty %}

@@ -32,8 +32,6 @@ def categoria_create(request: HttpRequest):
 
 
 # *** CATEGORIA - UPDATE VIEW
-
-
 def categoria_update(request: HttpRequest, pk: int):
     query = models.Categoria.objects.get(id=pk)
     if request.method == 'GET':
@@ -44,3 +42,22 @@ def categoria_update(request: HttpRequest, pk: int):
             form.save()
             return redirect('producto:categoria_list')
     return render(request, 'producto/categoria_form.html', {'form': form})
+
+
+# *** CATEGORIA - DETAIL VIEW
+
+
+def categoria_detail(request: HttpRequest, pk: int):
+    query = models.Categoria.objects.get(id=pk)
+    return render(request, 'producto/categoria_detail.html', {'object': query})
+
+
+# *** CATEGORIA - DELETE VIEW
+
+
+def categoria_delete(request: HttpRequest, pk: int):
+    query = models.Categoria.objects.get(id=pk)
+    if request.method == 'POST':
+        query.delete()
+        return redirect('producto:categoria_list')
+    return render(request, 'producto/categoria_confirm_delete.html', {'object': query})
