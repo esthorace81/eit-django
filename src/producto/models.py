@@ -21,3 +21,23 @@ class Categoria(models.Model):
         if not self.nombre.isalpha():
             raise ValidationError('El nombre de la categoría solo puede contener letras')
         super().clean()
+
+
+class Producto(models.Model):
+    categoria = models.ForeignKey(
+        Categoria, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='categoría'
+    )
+    nombre = models.CharField(max_length=100, db_index=True)
+    descripcion = models.TextField(verbose_name='descripción', null=True, blank=True)
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
+    stock = models.FloatField()
+
+    def __str__(self):
+        if self.categoria:
+            return f'{self.categoria} - {self.nombre}'
+        return self.nombre
+
+    class Meta:
+        unique_together = ('categoria', 'nombre')
+        verbose_name = 'producto'
+        verbose_name_plural = 'productos'
