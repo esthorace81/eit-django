@@ -7,7 +7,11 @@ from .. import forms, models
 
 
 def categoria_list(request):
-    queryset = models.Categoria.objects.all()
+    busqueda = request.GET.get('busqueda')
+    if busqueda:
+        queryset = models.Categoria.objects.filter(nombre__icontains=busqueda)
+    else:
+        queryset = models.Categoria.objects.all()
     context = {'object_list': queryset}
     return render(request, 'producto/categoria_list.html', context)
 

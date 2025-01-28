@@ -2,6 +2,11 @@
 
 {% block content %}
     <h1>Producto</h1>
+
+    <form method="get">
+        <input type="text" name="busqueda" placeholder="Buscar por producto...">
+    </form>
+
     <a href="{% url 'producto:producto_create' %}">
         <button>Crear Productos</button></a>
 
@@ -19,7 +24,11 @@
         <tbody>
             {% for producto in object_list %}
                 <tr>
-                    <td>{{ producto.categoria }} </td>
+                    {% if producto.categoria %}
+                        <td>{{ producto.categoria }} </td>
+                    {% else %}
+                       <td></td>
+                    {% endif %}
                     <td>{{ producto.nombre }} </td>
                     <td>{{ producto.precio }} </td>
                     <td>{{ producto.stock }} </td>
