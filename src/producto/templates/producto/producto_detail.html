@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1>Producto - Vista en Detalle</h1>
+
+    <ul>
+        <li><strong>Categoría:</strong>{{ object.categoria }}</li>
+        <li><strong>Producto:</strong>{{ object.nombre }}</li>
+        <li><strong>Precio:</strong>{{ object.precio }}</li>
+        <li><strong>Stock:</strong>{{ object.stock }}</li>
+        <li><strong>Descripción:</strong>
+            {% if  object.descripcion %}
+                {{ object.descripcion }}
+            {% else %}
+                -
+            {% endif %}
+        </li>
+    </ul>
+    <a href="{% url 'producto:producto_list' %}"><button>Volver</button></a>
+
+{% endblock content %}

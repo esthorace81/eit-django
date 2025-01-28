@@ -15,3 +15,9 @@ class CategoriaForm(forms.ModelForm):
         if descripcion and len(descripcion) < 3:
             raise forms.ValidationError('La longitud debe ser mayor a 2 caracteres')
         return descripcion
+
+
+class ProductoForm(forms.ModelForm):
+    class Meta:
+        model = models.Producto
+        fields = '__all__'

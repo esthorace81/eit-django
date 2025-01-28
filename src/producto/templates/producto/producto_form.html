@@ -2,9 +2,9 @@
 
 {% block content %}
     {% if form.instance.pk %}
-        <h1>Producto - Categorías - Formulario de actualización</h1>
+        <h1>Producto - Formulario de actualización</h1>
     {% else %}
-        <h1>Producto - Categorías - Formulario de creación</h1>
+        <h1>Producto - Formulario de creación</h1>
     {% endif %}
 
     <form method="post">
@@ -13,7 +13,7 @@
         <button type="submit">Enviar</button>
     </form>
 
-    <button><a href="{% url 'producto:categoria_list' %}">Volver</a></button>
+    <button><a href="{% url 'producto:producto_list' %}">Volver</a></button>
     <button><a href="{% url 'core:index' %}">Inicio</a></button>
 
 {% endblock %}
