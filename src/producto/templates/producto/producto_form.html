@@ -13,7 +13,7 @@
         <button type="submit">Enviar</button>
     </form>
 
-    <button><a href="{% url 'producto:producto_list' %}">Volver</a></button>
-    <button><a href="{% url 'core:index' %}">Inicio</a></button>
+    <a href="{% url 'producto:producto_list' %}"><button>Volver</button></a>
+    <a href="{% url 'core:index' %}"><button>Inicio</button></a>
 
 {% endblock %}
