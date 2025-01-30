@@ -6,7 +6,7 @@ from .. import forms, models
 # *** CATEGORIA - LIST VIEW
 
 
-def categoria_list(request):
+def categoria_list(request: HttpRequest):
     busqueda = request.GET.get('busqueda')
     if busqueda:
         queryset = models.Categoria.objects.filter(nombre__icontains=busqueda)
