@@ -11,3 +11,6 @@ class ProductoAdmin(admin.ModelAdmin):
     list_display_links = ('nombre',)
     list_filter = ('categoria',)
     search_fields = ('categoria', 'nombre')
+
+
+admin.site.register(models.Vendedor)

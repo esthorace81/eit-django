@@ -1,5 +1,7 @@
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Categoria(models.Model):
@@ -41,3 +43,18 @@ class Producto(models.Model):
         unique_together = ('categoria', 'nombre')
         verbose_name = 'producto'
         verbose_name_plural = 'productos'
+
+
+class Vendedor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='usuario')
+    telefono = PhoneNumberField(blank=True)
+    imagen_perfil = models.ImageField(
+        upload_to='perfiles_vendedores', blank=True, null=True, verbose_name='imagen de perfil'
+    )
+
+    def __str__(self) -> str:
+        return f'{self.user.username} ({self.telefono})'
+
+    class Meta:
+        verbose_name = 'vendedor'
+        verbose_name_plural = 'vendedores'

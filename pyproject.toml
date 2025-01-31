@@ -6,6 +6,8 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "django>=5.1.4",
+    "django-phonenumber-field[phonenumbers]>=8.0.0",
+    "pillow>=11.1.0",
 ]
 
 [dependency-groups]

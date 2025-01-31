@@ -40,6 +40,11 @@ INSTALLED_APPS = [
     'core',
     'producto',
 ]
+# APPS DE TERCEROS
+INSTALLED_APPS += [
+    'phonenumber_field',
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -126,3 +131,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/login/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
