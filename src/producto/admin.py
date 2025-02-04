@@ -14,3 +14,8 @@ class ProductoAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Vendedor)
+
+
+@admin.register(models.Venta)
+class VentaAdmin(admin.ModelAdmin):
+    list_display = ('vendedor', 'producto', 'cantidad', 'precio_total', 'fecha_venta')

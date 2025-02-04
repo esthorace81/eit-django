@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -26,9 +27,7 @@ class Categoria(models.Model):
 
 
 class Producto(models.Model):
-    categoria = models.ForeignKey(
-        Categoria, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='categoría'
-    )
+    categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='categoría')
     nombre = models.CharField(max_length=100, db_index=True)
     descripcion = models.TextField(verbose_name='descripción', null=True, blank=True)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
@@ -58,3 +57,29 @@ class Vendedor(models.Model):
     class Meta:
         verbose_name = 'vendedor'
         verbose_name_plural = 'vendedores'
+
+
+class Venta(models.Model):
+    vendedor = models.ForeignKey(Vendedor, on_delete=models.PROTECT)
+    producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
+    cantidad = models.FloatField()
+    precio_total = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
+    fecha_venta = models.DateTimeField(default=timezone.now, editable=False)
+
+    def __str__(self) -> str:
+        return f'{self.vendedor.user.username} - {self.producto.nombre} ${self.precio_total}'
+
+    def clean(self):
+        if self.cantidad > self.producto.stock:
+            raise ValidationError({'cantidad': ['No hay suficiente stock para realizar la venta.']})
+
+        if self.cantidad <= 0:
+            raise ValidationError({'cantidad': ['La cantidad debe ser mayor a 0.']})
+        super().clean()
+
+    def save(self, *args, **kwargs):
+        self.precio_total = float(self.producto.precio) * self.cantidad
+        if self.pk is None:  # Nueva instancia
+            self.producto.stock -= self.cantidad
+            self.producto.save()
+        super().save(*args, **kwargs)
