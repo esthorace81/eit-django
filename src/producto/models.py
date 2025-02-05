@@ -60,7 +60,7 @@ class Vendedor(models.Model):
 
 
 class Venta(models.Model):
-    vendedor = models.ForeignKey(Vendedor, on_delete=models.PROTECT)
+    vendedor = models.OneToOneField(Vendedor, on_delete=models.PROTECT)
     producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
     cantidad = models.FloatField()
     precio_total = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
