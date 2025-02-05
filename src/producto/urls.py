@@ -1,14 +1,14 @@
 from django.urls import path
+from django.views.generic import TemplateView
 
 from producto.views_models import categoria
 
-from . import views
 from .views_models import producto, venta
 
 app_name = 'producto'
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', TemplateView.as_view(template_name='producto/index.html'), name='index'),
 ]
 
 urlpatterns += [

@@ -13,6 +13,9 @@ class ProductoAdmin(admin.ModelAdmin):
     search_fields = ('categoria', 'nombre')
 
 
+admin.site.register(models.Vendedor)
+
+
 @admin.register(models.Venta)
 class VentaAdmin(admin.ModelAdmin):
     list_display = ('vendedor', 'producto', 'cantidad', 'precio_total', 'fecha_venta')

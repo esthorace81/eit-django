@@ -4,6 +4,8 @@ from django.db import models
 from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
 
+from core.middleware import get_current_user
+
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
@@ -27,7 +29,9 @@ class Categoria(models.Model):
 
 
 class Producto(models.Model):
-    categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='categoría')
+    categoria = models.ForeignKey(
+        Categoria, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='categoría'
+    )
     nombre = models.CharField(max_length=100, db_index=True)
     descripcion = models.TextField(verbose_name='descripción', null=True, blank=True)
     precio = models.DecimalField(max_digits=10, decimal_places=2)
@@ -60,7 +64,9 @@ class Vendedor(models.Model):
 
 
 class Venta(models.Model):
-    vendedor = models.OneToOneField(Vendedor, on_delete=models.PROTECT)
+    vendedor = models.ForeignKey(
+        Vendedor, on_delete=models.PROTECT, editable=False, blank=True, null=True
+    )
     producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
     cantidad = models.FloatField()
     precio_total = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
@@ -70,16 +76,30 @@ class Venta(models.Model):
         return f'{self.vendedor.user.username} - {self.producto.nombre} ${self.precio_total}'
 
     def clean(self):
+        # Validar que el usuario actual sea vendedor
+        user = get_current_user()
+        if user:
+            if not Vendedor.objects.filter(user=user).exists():
+                raise ValidationError('El usuario no tiene permisos de vendedor.')
+        # Validar que la cantidad sea mayor a 0 y que no exceda el stock
         if self.cantidad > self.producto.stock:
             raise ValidationError({'cantidad': ['No hay suficiente stock para realizar la venta.']})
-
+        # Validar que la cantidad sea mayor a 0
         if self.cantidad <= 0:
             raise ValidationError({'cantidad': ['La cantidad debe ser mayor a 0.']})
         super().clean()
 
     def save(self, *args, **kwargs):
+        self.full_clean()
+        if not self.vendedor:
+            user = get_current_user()
+            if user:
+                self.vendedor = Vendedor.objects.get(user=user)
+            else:
+                raise ValidationError('El vendedor debe ser un usuario registrado.')
+
         self.precio_total = float(self.producto.precio) * self.cantidad
-        if self.pk is None:  # Nueva instancia
+        if self.pk is None:
             self.producto.stock -= self.cantidad
             self.producto.save()
         super().save(*args, **kwargs)
