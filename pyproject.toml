@@ -12,5 +12,6 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "djhtml>=3.0.7",
     "ipython>=8.31.0",
 ]
