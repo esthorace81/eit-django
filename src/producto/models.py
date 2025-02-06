@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
 
-from core.middleware import get_current_user
+from core.middleware import request_context
 
 
 class Categoria(models.Model):
@@ -73,15 +73,18 @@ class Venta(models.Model):
     fecha_venta = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self) -> str:
-        return f'{self.vendedor.user.username} - {self.producto.nombre} ${self.precio_total}'
+        vendedor_username = self.vendedor.user.username if self.vendedor else 'Sin vendedor'
+        return f'{vendedor_username} - {self.producto.nombre} ${self.precio_total}'
 
     def clean(self):
         # Validar que el usuario actual sea vendedor
-        user = get_current_user()
-        if user:
-            if not Vendedor.objects.filter(user=user).exists():
-                raise ValidationError('El usuario no tiene permisos de vendedor.')
-        # Validar que la cantidad sea mayor a 0 y que no exceda el stock
+        request = request_context.get()
+        if request and request.user.is_authenticated:
+            if not hasattr(request.user, 'vendedor'):
+                raise ValidationError('El usuario no tiene un perfil de vendedor asociado')
+        else:
+            raise ValidationError('Se requiere autenticación para crear ventas')
+
         if self.cantidad > self.producto.stock:
             raise ValidationError({'cantidad': ['No hay suficiente stock para realizar la venta.']})
         # Validar que la cantidad sea mayor a 0
@@ -92,11 +95,9 @@ class Venta(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         if not self.vendedor:
-            user = get_current_user()
-            if user:
-                self.vendedor = Vendedor.objects.get(user=user)
-            else:
-                raise ValidationError('El vendedor debe ser un usuario registrado.')
+            request = request_context.get()
+            if request and request.user.is_authenticated:
+                self.vendedor, _ = Vendedor.objects.get_or_create(user=request.user)
 
         self.precio_total = float(self.producto.precio) * self.cantidad
         if self.pk is None:

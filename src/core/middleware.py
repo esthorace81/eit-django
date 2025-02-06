@@ -1,16 +1,14 @@
-import threading
+from contextvars import ContextVar
 
-_thread_local = threading.local()
+from django.utils.deprecation import MiddlewareMixin
 
-
-class CurrentUserMiddleware:
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
-        _thread_local.user = request.user if request.user.is_authenticated else None
-        return self.get_response(request)
+request_context = ContextVar('request')
 
 
-def get_current_user():
-    return getattr(_thread_local, 'user', None)
+class RequestMiddleware(MiddlewareMixin):
+    def process_request(self, request):
+        request_context.set(request)
+
+    def process_response(self, request, response):
+        request_context.set(None)
+        return response
