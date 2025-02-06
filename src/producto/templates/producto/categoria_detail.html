@@ -1,19 +1,21 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-    <h1>Producto - Categorías - Vista en Detalle</h1>
-
-    <ul>
-        <li><strong>Nombre:</strong>{{ object.nombre }}</li>
-        <li><strong>Descripción:</strong>
-            {% if  object.descripcion %}
-                {{ object.descripcion }}
-            {% else %}
-                -
-            {% endif %}
-        </li>
-    </ul>
-    <a href="{% url 'producto:categoria_list' %}"><button>Volver</button></a>
-    <a href="{% url 'core:index' %}"><button>Inicio</button></a>
-
+<div class="container mt-5">
+    <h1 class="text-center">Detalles de la Categoría</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ object.nombre }}</h5>
+            <p class="card-text">
+                {% if  object.descripcion %}
+                    {{ object.descripcion }}
+                {% else %}
+                    -
+                {% endif %}
+            </p>
+            <a href="{% url 'producto:categoria_list' %}" class="btn btn-primary">Volver a la lista</a>
+            <a href="{% url 'core:index' %}" class="btn btn-secondary">Inicio</a>
+        </div>
+    </div>
+</div>
 {% endblock content %}

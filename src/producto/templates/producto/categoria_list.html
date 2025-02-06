@@ -1,15 +1,15 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-    <h1>Producto: Categorías</h1>
+<div class="container mt-5">
+    <h1 class="text-center">Producto: Categorías</h1>
     <form method="get">
-        <input type="text" name="busqueda" placeholder="Buscar categoría...">
+        <input type="text" name="busqueda" placeholder="Buscar categoría..." class="form-control">
     </form>
     <a href="{% url 'producto:categoria_create' %}">
-        <button>Crear Categoría de Productos</button></a>
+        <button class="btn btn-primary">Crear Categoría de Productos</button></a>
 
-
-    <table border="1">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Categoría</th>
@@ -18,23 +18,24 @@
         </thead>
         <tbody>
             {% for categoria in object_list %}
-                <tr>
-                    <td>{{ categoria }} </td>
-                    <td>
-                        <a href="{% url 'producto:categoria_detail' categoria.id %}"><button>Detalle</button></a>
-                        <a href="{% url 'producto:categoria_update' categoria.id %}"><button>Editar</button></a>
-                        <a href="{% url 'producto:categoria_delete' categoria.id %}"><button>Eliminar</button></a>
-                    </td>
-                </tr>
+            <tr>
+                <td>{{ categoria }} </td>
+                <td>
+                    <a href="{% url 'producto:categoria_detail' categoria.id %}" class="btn btn-info">Detalle</a>
+                    <a href="{% url 'producto:categoria_update' categoria.id %}" class="btn btn-warning">Editar</a>
+                    <a href="{% url 'producto:categoria_delete' categoria.id %}" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
             {% empty %}
-                <tr>
-                    <td>No hay datos disponibles</td>
-                </tr>
+            <tr>
+                <td>No hay datos disponibles</td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <a href="{% url 'producto:index' %}"><button>Volver</button></a>
-    <a href="{% url 'core:index' %}"><button>Inicio</button></a>
+    <a href="{% url 'producto:index' %}"><button class="btn btn-secondary">Volver</button></a>
+    <a href="{% url 'core:index' %}"><button class="btn btn-secondary">Inicio</button></a>
 
+</div>
 {% endblock %}

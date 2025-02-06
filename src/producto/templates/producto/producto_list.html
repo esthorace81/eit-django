@@ -1,52 +1,58 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-    <h1>Producto</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Producto</h1>
 
     <form method="get">
-        <input type="text" name="busqueda" placeholder="Buscar por producto...">
+        <input type="text" name="busqueda" placeholder="Buscar por producto..." class="form-control">
     </form>
 
     <a href="{% url 'producto:producto_create' %}">
-        <button>Crear Productos</button></a>
+        <button class="btn btn-primary">Crear Productos</button>
+    </a>
 
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Categoría</th>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in object_list %}
+                        <tr>
+                            {% if producto.categoria %}
+                                <td>{{ producto.categoria }} </td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            <td>{{ producto.nombre }} </td>
+                            <td>{{ producto.precio }} </td>
+                            <td>{{ producto.stock }} </td>
+                            <td>
+                                <a href="{% url 'producto:producto_detail' producto.id %}"><button class="btn btn-info">Detalle</button></a>
+                                <a href="{% url 'producto:producto_update' producto.id %}"><button class="btn btn-warning">Editar</button></a>
+                                <a href="{% url 'producto:producto_delete' producto.id %}"><button class="btn btn-danger">Eliminar</button></a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5">No hay datos disponibles</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Categoría</th>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Stock</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for producto in object_list %}
-                <tr>
-                    {% if producto.categoria %}
-                        <td>{{ producto.categoria }} </td>
-                    {% else %}
-                        <td></td>
-                    {% endif %}
-                    <td>{{ producto.nombre }} </td>
-                    <td>{{ producto.precio }} </td>
-                    <td>{{ producto.stock }} </td>
-                    <td>
-                        <a href="{% url 'producto:producto_detail' producto.id %}"><button>Detalle</button></a>
-                        <a href="{% url 'producto:producto_update' producto.id %}"><button>Editar</button></a>
-                        <a href="{% url 'producto:producto_delete' producto.id %}"><button>Eliminar</button></a>
-                    </td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td>No hay datos disponibles</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <a href="{% url 'producto:index' %}"><button class="btn btn-secondary">Volver</button></a>
+    <a href="{% url 'core:index' %}"><button class="btn btn-secondary">Inicio</button></a>
 
-    <a href="{% url 'producto:index' %}"><button>Volver</button></a>
-    <a href="{% url 'core:index' %}"><button>Inicio</button></a>
-
+</div>
 {% endblock %}
